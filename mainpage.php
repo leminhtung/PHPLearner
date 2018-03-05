@@ -38,12 +38,12 @@
 	</style>
 </head>
 <body>
-	<div class="container">
+	<div class="container">	 
 		<ul>
-		  <li><a class="active" href="#home">Home</a></li>
-		  <li><a href="#info">Infomation of Student</a></li>
-		  <li><a href="#list">Student List</a></li>
-		  <li><a href="#account">Account Manager</a></li>
+		  <li><a class="active" href="mainpage.php">Home</a></li>
+		  <li><a href="CreateStu.php">Create New Student</a></li>
+		  <li><a href="studentlist.php">Student List</a></li>
+		  <li><a href="account.php">Account Manager</a></li>
 		</ul>
 		<img src="img/work4.jpg" height="100%" width="100%">
 	</div>

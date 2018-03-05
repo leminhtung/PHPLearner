@@ -43,8 +43,9 @@
 		    background-color: #111;
 		}
 		.container {
-			height: 100%
-		    width: 100%;
+			margin: auto;   			
+		    padding: 20px;
+		    width: 50%;
 		}
 		.changebutton {
 		    background-color: #4CAF50;
@@ -67,13 +68,18 @@
 		}
 	</style>
 </head>
+<?php
+$connect = mysql_connect("localhost","root","") or die("could not connect to server");
+mysql_select_db("test") or die (mysql_error($connect));
+$result = mysql_query("SELECT * FROM admin");
+?>
 <body>
-	<div class="container">
+	<div>
 		<ul>
-		  <li><a class="active" href="#home">Home</a></li>
-		  <li><a href="#info">Infomation of Student</a></li>
-		  <li><a href="#list">Student List</a></li>
-		  <li><a href="#account">Account Manager</a></li>
+		  <li><a class="active" href="mainpage.php">Home</a></li>
+		  <li><a href="CreateStu.php">Create New Student</a></li>
+		  <li><a href="studentlist.php">Student List</a></li>
+		  <li><a href="account.php">Account Manager</a></li>
 		</ul>
 	</div>
 	<h2 align="center">Account Manager</h2>
@@ -82,16 +88,19 @@
 			<tr>
 				<th>UserName</th>
 				<th>Password</th>
-				<th>Action</th>
+				<th>Role</th>
 			</tr>
-			<tr>
-				<td>Mr.John</td>
-				<td>123</td>
-				<td>
-					<button type="button" class="changebutton">Change</button>
-    				<button type="button" class="deletebutton">Delete</button>
-				</td>
-			</tr>
+			<?php
+			while($row = mysql_fetch_assoc($result)){	
+			?>
+				<tr>
+					<td><?php echo $row["username"] ?></td>
+					<td><?php echo $row["password"] ?></td>
+					<td><?php echo $row["role"] == 1 ? 'Student' : 'Admin' ?></t>
+				</tr>
+			<?php
+			} 
+			 ?>
 		</table>	
 	</div>
 </div>

@@ -47,16 +47,16 @@
 		li a:hover {
 		    background-color: #111;
 		}
-		.changebutton {
+		body > div.container > table > tbody > tr > td > a {
 		    background-color: #4CAF50;
 		    color: white;
 		    padding: 14px 20px;
-		    margin: 8px 0;
-		    border: none;
-		    cursor: pointer;
-		    width: 45%;
+		    display: inline-block;
+		    text-decoration: none;
+		    margin: 10px;
+
 		}
-		.deletebutton{
+		input{
 			background-color: #f44336;
 		    color: white;
 		    padding: 14px 20px;
@@ -65,16 +65,37 @@
 		    cursor: pointer;
 		    width: 45%;
 		    float: center;
-		}
+		    display: inline-block;
+
 	</style>
 </head>
+<?php
+$connect = mysql_connect("localhost","root","") or die("could not connect to server");
+mysql_select_db("test") or die (mysql_error($connect));
+$result = mysql_query("SELECT user.*, role FROM user JOIN admin ON user.admin_id = admin.id WHERE role=1");
+?>
+<?php
+$admin_id = $_POST['admin_id'];
+$query = "DELETE FROM user WHERE admin_id='$admin_id'";
+mysql_query ($query);
+
+if (mysql_affected_rows() == 1) { 
+?>
+	<strong>Contact Has Been Deleted</strong><br /><br />
+<?php
+} else { 
+?>
+	<strong>Delete Failed</strong><br /><br />
+<?php
+} 
+?>
 <body>
 	<div>
 		<ul>
-		  <li><a class="active" href="#home">Home</a></li>
-		  <li><a href="#info">Infomation of Student</a></li>
-		  <li><a href="#list">Student List</a></li>
-		  <li><a href="#account">Account Manager</a></li>
+		 <li><a class="active" href="mainpage.php">Home</a></li>
+		  <li><a href="CreateStu.php">Create New Student</a></li>
+		  <li><a href="studentlist.php">Student List</a></li>
+		  <li><a href="account.php">Account Manager</a></li>
 		</ul>
 	</div>
 	<h2 align="center">Student List</h2>
@@ -87,16 +108,25 @@
 				<th>Adress</th>
 				<td>Action</td>
 			</tr>
-			<tr>
-				<td>1</td>
-				<td>Mr.John</td>
-				<td>20</td>
-				<td>texas</td>
-				<td>
-					<button type="button" class="changebutton">Change</button>
-    				<button type="button" class="deletebutton">Delete</button>
-				</td>
-			</tr>
+			<?php
+			while($row = mysql_fetch_assoc($result)){	
+			?>
+				<tr>
+					<td><?php echo $row["admin_id"] ?></td>
+					<td><?php echo $row["fullname"] ?></td>
+					<td><?php echo date('m/d/Y', $row["dob"]) ?></td>
+					<td><?php echo $row["address"] ?></td>
+					<td>
+						<a href="infopage.php?id=<?php echo($row["admin_id"]) ?>">Change</a>&nbsp;&nbsp;
+	    				<form action="" method="post">
+	    					<input type="hidden" name="admin_id" value = "<?php echo $row['admin_id']; ?>">
+	    					<input type="submit" name="submit" value="Delete">
+	    				</form>
+					</td>
+				</tr>
+			<?php
+			}
+			?>
 		</table>	
 	</div>
 </div>
